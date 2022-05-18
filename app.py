@@ -69,7 +69,7 @@ if __name__ == "__main__":
     xoutVideo.input.setQueueSize(1)
     camRgb.video.link(xoutVideo.input)
 
-    
+
     while True:
         try:
             # configurazione videocamera Luxonis - Open AI kit (OAK) con libreria depthai
@@ -145,6 +145,7 @@ if __name__ == "__main__":
                         break
                     
                     print('📷 '+ Fore.YELLOW + '[photo]' + Style.RESET_ALL)
+                    
                     # salva immagine
                     # cv2.imwrite( path_salva_immagini  + '/t_' + counter + '.png',videoIn)
 

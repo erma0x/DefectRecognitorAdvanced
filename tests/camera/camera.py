@@ -1,0 +1,67 @@
+import numpy as np
+import cv2 as cv
+import sys
+from time import time
+import argparse
+
+
+def rescale_frame(frame, percent=75):
+    '''
+    riscala l'immagine della videocamera in base ad una percentuale. 
+    percent = 100 ,  1 : 1    non cambi la dimensione.
+    percent = 150 ,  1 : 1.5  scali di una volta e mezzo
+    percent = 50  ,  1 : 0.5  scali di mezza volta
+    '''
+    width = int(frame.shape[1] * percent/ 100)
+    height = int(frame.shape[0] * percent/ 100)
+    dim = (width, height)
+    return cv.resize(frame, dim, interpolation =cv.INTER_AREA)
+
+def main(usb_port=0):
+    # porta usb passata come argomento da linea di comando, come nella line successiva: 
+    # python3 .\tests\camera\camera.py 0
+    parser = argparse.ArgumentParser()
+    parser.add_argument('usb', type=int)
+    args = parser.parse_args()
+
+    # Inserisci 1 e connetti la videocamera al computer tramite USB
+    # se non funziona prova tutte le porte USB lanciando questo script.
+    
+    # KEY_USB = 0
+    KEY_USB = args.usb
+
+    # inizializza l'oggetto videocamera
+    cap = cv.VideoCapture(KEY_USB)
+
+    i = 0 # contatore salva foto
+
+    while True:
+        #cattura frame per frame dalla videocamera
+        ret, frame = cap.read()
+        # se ret non è uguale a True, esci dall'loop
+        if not ret:
+            print("impossible ricevere immagini dalla videocamera")
+            break
+
+        # riscala frame di una percentuale
+        frame_modified = rescale_frame(frame, percent=450)
+        cv.imshow('frame', frame_modified )
+
+        # se premi il tasto C salvi una foto
+        if cv.waitKey(1) & 0xFF == ord('s'): #save on pressing 'y' 
+            cv.imwrite(sys.path[0]+"/img/foto_"+str(i)+".png",frame) 
+            i=i+1
+            time.sleep(0.1)
+
+
+    # rilascia la videocamera quando esci dal programma
+    cap.release()
+    cv.destroyAllWindows()
+
+    # testa se la videocamera è connessa
+    if not cap.isOpened():
+        print("Cannot open camera")
+        exit()
+        
+if __name__ == "__main__":
+    main()
