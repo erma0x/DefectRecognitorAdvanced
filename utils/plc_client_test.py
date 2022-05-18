@@ -44,7 +44,7 @@ def testing_socket(ip = "127.0.0.1", port=1234):
 
         except: 
             # quando succede un qualsiasi errore eseguisci le linee qui sotto 
-            print(' 🔥 Errore : client connection at ',current_time) 
+            print(' 🔥','[',Fore.RED +current_time+Style.RESET_ALL,'] Errore: connessione al server non riuscita') 
             time.sleep(intervallo_di_secondi_per_disconnessione)
 
 
