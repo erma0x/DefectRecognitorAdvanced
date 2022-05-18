@@ -11,7 +11,7 @@ Le immagini vengono catturate da una videocamera 4K posta alla fine della di pro
 
 <br>
 
-![img](./docs\risultati\img\risultato_finale_1.PNG)
+![img](.\docs\risultati\img\risultato_finale_1.png)
 
 
 
