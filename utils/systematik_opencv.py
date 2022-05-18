@@ -1,6 +1,5 @@
-from sre_constants import BRANCH
-import cv2
 import numpy as np
+import cv2
 
 def save_img(path_img, img):
     """ 
@@ -10,6 +9,7 @@ def save_img(path_img, img):
     print(path_img)
     """
     cv2.imwrite(path_img, img)
+
 
 def cartoonize(img,a=20,b=200,c=250):
     '''
@@ -24,6 +24,7 @@ def cartoonize(img,a=20,b=200,c=250):
     cartoon = cv2.bitwise_and(color, color, mask=edges)
     return cartoon
 
+
 def trova_imperfezioni(img, min_canny=40, max_canny=200, min_canny2=150, max_canny2=220):
     '''
     processa immagine al fine di visualizzare piu imperfezioni possibili
@@ -34,7 +35,8 @@ def trova_imperfezioni(img, min_canny=40, max_canny=200, min_canny2=150, max_can
     edges = cv2.Canny(gray, min_canny, max_canny)
     edges_high_thresh = cv2.Canny(edges, min_canny2, max_canny2)
     return edges_high_thresh
-    
+
+
 def disegna_contorni(image):
     '''
     trova imperfezioni in un immagine evidenziandole con un colore.
@@ -50,6 +52,7 @@ def disegna_contorni(image):
 def inverti_maschera(img,mask):
     mask2 = cv2.bitwise_not(mask)
     return cv2.bitwise_or(img, img, mask = mask2).copy()
+
 
 def median_blurr(img, kernel_size=9):
     '''
@@ -81,6 +84,7 @@ def disegna_difetti(img):
             cv2.line(out, (x1, y1), (x2, y2), (0,0,255), 3)
     return out
 
+
 def BGR_to_HSV(nome_immagine):
     '''
     converti l'immagine da formato opencv BGR (opposto di RGB) a grayscale (scala di grigi)
@@ -88,10 +92,10 @@ def BGR_to_HSV(nome_immagine):
     return cv2.cvtColor(nome_immagine ,cv2.COLOR_BGR2HSV)
 
 
-def computer_vision_system(immagine):
+def computer_vision_system(immagine, params):
     
     # rendi l'immagine blurred attraverso GaussianBlur
-    immagine_cartone = cartoonize(img = immagine, a=10,b=170,c=255)
+    immagine_cartone = cartoonize(img = immagine, a=params['cartoon_x'],b=params['cartoon_y'],c=params['cartoon_z'])
     
     # trasforma immagine da BGR a HSV
     immagine_hsv = BGR_to_HSV(nome_immagine = immagine)

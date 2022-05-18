@@ -20,3 +20,4 @@ cartoonize_x = 20
 cartoonize_y = 200
 cartoonize_z = 250 
 
+#min_canny=40, max_canny=200, min_canny2=150, max_canny2=220

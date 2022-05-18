@@ -21,21 +21,19 @@ from utils.parametri import *
 from utils.ricette import *
 from utils.estetica import *
 
-def aggiorna_parametri(val):
-    '''
-    aggiorna i parametri di visualizzazione presi dalla trackbar
-    '''
-    alpha = val / 100
-    beta = ( 1.0 - alpha )
-    #new = sk.computer_vision_system(video_frame.getCvFrame())
-    #cv2.imshow('title', new)
-
-
 def empty(a):
     pass
 
+def visualizza_risultati(parametri):
+    # Computer Vision System
+    videoIn = sk.computer_vision_system(video_frame.getCvFrame(), params=parametri)
+    # visualizza l'immagine nel pannello di visualizzazione
+    cv2.imshow(nome_pannello_di_visualizzazione, videoIn)
 
 if __name__ == "__main__":
+
+    ricetta = {} # parametri per scattare la foto ed elaborarla
+
     # stampa logo, descrizione ed introduzione
     print(Fore.CYAN + LOGO + Style.RESET_ALL + '\n'+ descrizione )
     print('\n🚀 Computer Vision App '+ Fore.GREEN  +'[start]' + Style.RESET_ALL)
@@ -71,6 +69,7 @@ if __name__ == "__main__":
     xoutVideo.input.setQueueSize(1)
     camRgb.video.link(xoutVideo.input)
 
+    
     while True:
         try:
             # configurazione videocamera Luxonis - Open AI kit (OAK) con libreria depthai
@@ -85,9 +84,9 @@ if __name__ == "__main__":
                 cv2.resizeWindow(nome_pannello_di_controllo, video_size_x, video_size_y)
 
                 # ottieni i valori delle trackbar dal pannello di controllo
-                cv2.createTrackbar("FPS", nome_pannello_di_controllo, 0, 20, empty)
+                cv2.createTrackbar("fps", nome_pannello_di_controllo, 0, 20, empty)
                 cv2.createTrackbar("exposition", nome_pannello_di_controllo, 0, 55000, empty)
-                cv2.createTrackbar("ISO", nome_pannello_di_controllo, 0, 500, empty)
+                cv2.createTrackbar("iso", nome_pannello_di_controllo, 0, 500, empty)
                 cv2.createTrackbar("focus", nome_pannello_di_controllo, 0, 1000, empty)
                 cv2.createTrackbar("canny_x", nome_pannello_di_controllo, 0, 255, empty)
                 cv2.createTrackbar("canny_y", nome_pannello_di_controllo, 0, 255, empty)
@@ -113,37 +112,34 @@ if __name__ == "__main__":
                     # ricevi dati dal PLC tramite socket
                     data = connection.recv(1024)  
 
-                    # try:
-                        # Filtro per la PLC, se i dati contengono come primo carattere 'f' fai una foto
-                        #if 'f' in str(data)[2]: 
-                        #   print('📡 dati ricevuti da PLC: ' + Fore.BLUE  + str(data)  + Style.RESET_ALL + '\n taking photo ...')
+                    # fare attivare da qua sotto lo script
+                    # filtro per la PLC, se i dati contengono come primo carattere 'f' fai una foto
+                    if 'f' in str(data)[2]: 
+                        print('📡 dati ricevuti da PLC: ' + Fore.BLUE  + str(data)  + Style.RESET_ALL + '\n taking photo ...')
 
-                    # ottieni un immagine dalla videocamera
-                    video_frame = video.get()
+                    try:
+                        # ottieni un immagine dalla videocamera
+                        video_frame = video.get()
+                    except:
+                        print('errore nel ottenere un frame dalla videocamera')
 
                     # ottieni i valori 
-                    fps_value = cv2.getTrackbarPos("FPS", nome_pannello_di_controllo)
-                    exposition_value = cv2.getTrackbarPos("exposition", nome_pannello_di_controllo)
-                    ISO_value = cv2.getTrackbarPos("ISO", nome_pannello_di_controllo)
-                    focus_value = cv2.getTrackbarPos("focus", nome_pannello_di_controllo)
-                    canny_x_value = cv2.getTrackbarPos("canny_x", nome_pannello_di_controllo)
-                    canny_y_value = cv2.getTrackbarPos("canny_y", nome_pannello_di_controllo)
-                    line_x_value = cv2.getTrackbarPos("line_x", nome_pannello_di_controllo)
-                    line_y_value = cv2.getTrackbarPos("line_y", nome_pannello_di_controllo)
-                    line_z_value = cv2.getTrackbarPos("line_z", nome_pannello_di_controllo)
-                    cartoon_x_value = cv2.getTrackbarPos("cartoon_x", nome_pannello_di_controllo)
-                    cartoon_y_value = cv2.getTrackbarPos("cartoon_y", nome_pannello_di_controllo)
-                    cartoon_z_value = cv2.getTrackbarPos("cartoon_z", nome_pannello_di_controllo)
+                    ricetta['fps'] = cv2.getTrackbarPos("fps", nome_pannello_di_controllo)
+                    ricetta['exposition'] = cv2.getTrackbarPos("exposition", nome_pannello_di_controllo)
+                    ricetta['iso'] = cv2.getTrackbarPos("iso", nome_pannello_di_controllo)
+                    ricetta['focus'] = cv2.getTrackbarPos("focus", nome_pannello_di_controllo)
+                    ricetta['canny_x'] = cv2.getTrackbarPos("canny_x", nome_pannello_di_controllo)
+                    ricetta['canny_y'] = cv2.getTrackbarPos("canny_y", nome_pannello_di_controllo)
+                    ricetta['line_x'] = cv2.getTrackbarPos("line_x", nome_pannello_di_controllo)
+                    ricetta['line_y'] = cv2.getTrackbarPos("line_y", nome_pannello_di_controllo)
+                    ricetta['line_z'] = cv2.getTrackbarPos("line_z", nome_pannello_di_controllo)
+                    ricetta['cartoon_x'] = cv2.getTrackbarPos("cartoon_x", nome_pannello_di_controllo)
+                    ricetta['cartoon_y'] = cv2.getTrackbarPos("cartoon_y", nome_pannello_di_controllo)
+                    ricetta['cartoon_z'] = cv2.getTrackbarPos("cartoon_z", nome_pannello_di_controllo)
 
-                    # Computer Vision System
-                    videoIn = sk.computer_vision_system(video_frame.getCvFrame())
-
-                    # visualizza l'immagine nel pannello di visualizzazione
-                    cv2.imshow(nome_pannello_di_visualizzazione, videoIn )    
+                    # tutti i parametri modificati nel pannello di controllo vengono aggiornati ogni frame
+                    visualizza_risultati(parametri=ricetta)
                     
-                    # visualizza immagine con parametri modificati
-                    # on_trackbar(0)
-
                     # se premi C esci dall'applicazione
                     if cv2.waitKey(2) == ord('c'):
                         break
