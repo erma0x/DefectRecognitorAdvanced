@@ -67,10 +67,15 @@ ________________________________________________________________
 ## **Installazione**
 
 1. installa pip, il packet manager di python  <br>
-```python3 -m install pip``` 
+```curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py``` 
+```python3 get-pip.py```
+```rm .\get-pip.py```
 
 2. aggiorna il packet manager pip <br>
 ```pip install -U pip```
+
+2. crea ed installa l'ambiente di sviluppo con _venv_<br>
+```python3 -m venv venv```
 
 3.  Attivazione dell'ambiente di sviluppo  
     (Mac OS / Linux)<br>
