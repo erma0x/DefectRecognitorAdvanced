@@ -30,7 +30,7 @@ def visualizza_risultati(parametri):
     # visualizza l'immagine nel pannello di visualizzazione
     cv2.imshow(nome_pannello_di_visualizzazione, videoIn)
 
-if __name__ == "__main__":
+def main():
 
     ricetta = {} # parametri per scattare la foto ed elaborarla
 
@@ -68,7 +68,6 @@ if __name__ == "__main__":
     xoutVideo.input.setBlocking(False)
     xoutVideo.input.setQueueSize(1)
     camRgb.video.link(xoutVideo.input)
-
 
     while True:
         try:
@@ -138,7 +137,7 @@ if __name__ == "__main__":
                     ricetta['cartoon_z'] = cv2.getTrackbarPos("cartoon_z", nome_pannello_di_controllo)
 
                     # tutti i parametri modificati nel pannello di controllo vengono aggiornati ogni frame
-                    visualizza_risultati(parametri=ricetta)
+                    visualizza_risultati(parametri = ricetta)
                     
                     # se premi C esci dall'applicazione
                     if cv2.waitKey(2) == ord('c'):
@@ -154,3 +153,6 @@ if __name__ == "__main__":
             current_time = datetime.now().strftime("%H:%M:%S")
             print('💀 videocamera non rilevata '+ Fore.RED+'[disconnessa]'+Style.RESET_ALL+' alle ore',current_time)
             time.sleep(1)
+
+if __name__ == "__main__":
+    main()

@@ -18,6 +18,11 @@ def rescale_frame(frame, percent=75):
     return cv.resize(frame, dim, interpolation =cv.INTER_AREA)
 
 def main(usb_port=0):
+    '''
+    connettiti alla videocamera attraverso la porta usb attraverso la libreria di opencv.
+    scatta una foto ogni volta che premi il tasto S
+    salva la foto nella sottocartella ./img
+    '''
     # porta usb passata come argomento da linea di comando, come nella line successiva: 
     # python3 .\tests\camera\camera.py 0
     parser = argparse.ArgumentParser()
@@ -26,14 +31,14 @@ def main(usb_port=0):
 
     # Inserisci 1 e connetti la videocamera al computer tramite USB
     # se non funziona prova tutte le porte USB lanciando questo script.
-    
     # KEY_USB = 0
     KEY_USB = args.usb
 
     # inizializza l'oggetto videocamera
     cap = cv.VideoCapture(KEY_USB)
 
-    i = 0 # contatore salva foto
+    # contatore salva foto
+    i = 0
 
     while True:
         #cattura frame per frame dalla videocamera
