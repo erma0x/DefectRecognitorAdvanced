@@ -1,9 +1,6 @@
 ricetta_default = {
-
 # categoria parametro
-                # nome | intervallo di valori
-
-
+            # nome | intervallo di valori
 
 # parametri per visualizzare il risultato
 'fps' : 1,                  # frame per second | 0 - 120 

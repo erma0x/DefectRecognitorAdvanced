@@ -28,12 +28,34 @@ def empty(a):
 def main():
     '''
     Applicazione di Computer Vision
-
-
-
+    1. inizializza il server
+    2. aspetta il messaggio da client plc con socket con ID ricetta e ID pezzo
+    3. scatta una foto e salvala
+    4. elabora la foto rilevando i difetti
+    5. ritorna la foto elaborata in una cartella
+    6. ritorna lo status (presenza di errori) e l'ID del pezzo
     '''
 
     ricetta = {} # parametri per scattare la foto ed elaborarla
+     
+    fps = ricetta_default['fps']                
+    video_size_x = ricetta_default['video_size_x']                
+    video_size_y = ricetta_default['video_size_y']                
+    manual_focus_parameter = ricetta_default['manual_focus_parameter']                
+    exposition = ricetta_default['exposition']                
+    iso = ricetta_default['iso']                
+    canny_x = ricetta_default['canny_x']                
+    canny_y = ricetta_default['canny_y']                
+    line_x = ricetta_default['line_x']                
+    line_y = ricetta_default['line_y']                
+    line_z = ricetta_default['line_z']                
+    cartoonize_x = ricetta_default['cartoonize_x']                
+    cartoonize_y = ricetta_default['cartoonize_y']                
+    cartoonize_z = ricetta_default['cartoonize_z']                
+    min_canny_a = ricetta_default['min_canny_a']                
+    max_canny_a = ricetta_default['max_canny_a']     
+    min_canny_b = ricetta_default['min_canny_b']     
+    max_canny_b = ricetta_default['max_canny_b']      
 
     # stampa logo, descrizione ed introduzione
     print(Fore.CYAN + LOGO + Style.RESET_ALL + '\n'+ descrizione )
@@ -62,10 +84,10 @@ def main():
     controlIn.setStreamName('control')
     camRgb.setBoardSocket(dai.CameraBoardSocket.RGB)
     camRgb.setResolution(dai.ColorCameraProperties.SensorResolution.THE_4_K)
-    camRgb.setFps(float(FPS_frame))
+    camRgb.setFps(float(fps))
     controllo.setAutoFocusMode(dai.CameraControl.AutoFocusMode.AUTO)
     camRgb.setVideoSize(video_size_x, video_size_y)
-    controllo.setManualExposure(expTime,sensIso)
+    controllo.setManualExposure(exposition, iso)
     xoutVideo.input.setBlocking(False)
     xoutVideo.input.setQueueSize(1)
     camRgb.video.link(xoutVideo.input)
@@ -105,7 +127,7 @@ def main():
                 video = device.getOutputQueue(name=nome_pannello_di_visualizzazione, maxSize=1, blocking=False)
                 controlQueue = device.getInputQueue('control')
                 ctrl = dai.CameraControl()
-                ctrl.setManualExposure(expTime, sensIso)
+                ctrl.setManualExposure(exposition, iso)
                 ctrl.setAutoFocusMode(dai.CameraControl.AutoFocusMode.AUTO)
                 controlQueue.send(ctrl)
 
@@ -126,7 +148,7 @@ def main():
                     except:
                         print('💀'+Fore.RED+' [errore]'+  Style.RESET_ALL+' | impossibile ottenere il frame dalla videocamera')
 
-                    # ottieni i valori 
+                    # ottieni i valori dalla trackbar
                     ricetta['fps'] = cv2.getTrackbarPos("fps", nome_pannello_di_controllo)
                     ricetta['exposition'] = cv2.getTrackbarPos("exposition", nome_pannello_di_controllo)
                     ricetta['iso'] = cv2.getTrackbarPos("iso", nome_pannello_di_controllo)
