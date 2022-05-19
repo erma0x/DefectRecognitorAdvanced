@@ -4,19 +4,16 @@ import cv2
 import numpy as np
 
 def empty(value):
-
-    new_img = img.copy()
-    new_img[:,:,2] = value
-
-    cv2.imshow('image', new_img)
+    new_image = img.copy()
+    new_image[:,:,2] = value
+    cv2.imshow('img', new_image)
 
 
-path_immagine = '\\data\\images\\viz\\logo.png'
+path_immagine = '\\data\\img\\examples\\logo2.png'
 
 path_finale = sys.path[0].replace("\\tests\\trackbar","") + path_immagine
 
 print("il path della tua immagine è : ",path_finale)
-
 
 nome_trackbar = 'trackbar'
 minimo_parametro = 0
@@ -35,7 +32,7 @@ cv2.createTrackbar('v_max',nome_trackbar, 255, 255, empty)
 
 while True:
     img = cv2.imread(path_finale)
-
+    
     h_min = cv2.getTrackbarPos('h_min',nome_trackbar)
     h_max = cv2.getTrackbarPos('h_max',nome_trackbar)
     s_min = cv2.getTrackbarPos('s_min',nome_trackbar)
@@ -52,6 +49,6 @@ while True:
     img_final = cv2.bitwise_and(imgHSV,imgHSV,mask)
 
     cv2.imshow('original',img)
-    cv2.imshow('elaborata',img_final)
+    cv2.imshow('img',img_final)
 
     cv2.waitKey(1)

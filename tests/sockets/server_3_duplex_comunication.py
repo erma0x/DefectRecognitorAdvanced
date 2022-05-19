@@ -10,6 +10,7 @@ def main():
     # Associa l'indirizzo IP e il numero di porta
     s.bind((socket.gethostname(),1234))          
 
+    # ascolta il numero di porta prescelto
     s.listen(port_number)
 
     while True:

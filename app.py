@@ -16,21 +16,22 @@ from matplotlib import cm
 import depthai as dai
 
 # file del progetto
-import utils.systematik_opencv as sk
-from utils.parametri import *
-from utils.ricette import *
-from utils.estetica import *
+import utils.systematik_opencv as systematik
+from utils.params_network import PORTA_SERVER, IP_SERVER, IP_PLC, PORTA_PLC
+from utils.ricette import ricetta_default
+from utils.estetica import LOGO, descrizione, nome_pannello_di_controllo, nome_pannello_di_visualizzazione
 
 def empty(a):
     pass
 
-def visualizza_risultati(parametri):
-    # Computer Vision System
-    videoIn = sk.computer_vision_system(video_frame.getCvFrame(), params=parametri)
-    # visualizza l'immagine nel pannello di visualizzazione
-    cv2.imshow(nome_pannello_di_visualizzazione, videoIn)
 
 def main():
+    '''
+    Applicazione di Computer Vision
+
+
+
+    '''
 
     ricetta = {} # parametri per scattare la foto ed elaborarla
 
@@ -68,6 +69,8 @@ def main():
     xoutVideo.input.setBlocking(False)
     xoutVideo.input.setQueueSize(1)
     camRgb.video.link(xoutVideo.input)
+
+    contatore_foto = 0
 
     while True:
         try:
@@ -119,8 +122,9 @@ def main():
                     try:
                         # ottieni un immagine dalla videocamera
                         video_frame = video.get()
+
                     except:
-                        print('errore nel ottenere un frame dalla videocamera')
+                        print('💀'+Fore.RED+' [errore]'+  Style.RESET_ALL+' | impossibile ottenere il frame dalla videocamera')
 
                     # ottieni i valori 
                     ricetta['fps'] = cv2.getTrackbarPos("fps", nome_pannello_di_controllo)
@@ -136,22 +140,37 @@ def main():
                     ricetta['cartoon_y'] = cv2.getTrackbarPos("cartoon_y", nome_pannello_di_controllo)
                     ricetta['cartoon_z'] = cv2.getTrackbarPos("cartoon_z", nome_pannello_di_controllo)
 
-                    # tutti i parametri modificati nel pannello di controllo vengono aggiornati ogni frame
-                    visualizza_risultati(parametri = ricetta)
+
+                    ##################################################################################
+                    # 🤖 ｃｏｍｐｕｔｅｒ   ｖｉｓｉｏｎ
+                    # i parametri modificati nel pannello di controllo con le trackbar vengono aggiornati ogni frame
+
+                    frame = video_frame.getCvFrame()
+
+                    frame_elaborato = systematik.computer_vision_system(frame, params=ricetta)
                     
+                    cv2.imshow(nome_pannello_di_visualizzazione, frame_elaborato)
+
+                    print('📷 esecuzione frame '+ Fore.GREEN + '[photo]' + Style.RESET_ALL)
+                    ##################################################################################
+
                     # se premi C esci dall'applicazione
                     if cv2.waitKey(2) == ord('c'):
                         break
                     
-                    print('📷 '+ Fore.YELLOW + '[photo]' + Style.RESET_ALL)
-                    
+                    # se premi S salvi una foto
+                    if cv2.waitKey(1) & 0xFF == ord('s'): 
+                        cv2.imwrite(sys.path[0]+"/data/img/viz/foto_"+str(contatore_foto)+".png",frame)
+                        contatore_foto += 1
+                        time.sleep(0.1)
+                                       
                     # salva immagine
-                    # cv2.imwrite( path_salva_immagini  + '/t_' + counter + '.png',videoIn)
+                    # cv2.imwrite( path_salva_immagini  + '/t_' + counter + '.png',video_frame)
 
         # se c'è un errore durante l'applicazione stampa il tempo ed l'errore ed aspetta 1 secondo. 
         except:
             current_time = datetime.now().strftime("%H:%M:%S")
-            print('💀 videocamera non rilevata '+ Fore.RED+'[disconnessa]'+Style.RESET_ALL+' alle ore',current_time)
+            print('💀'+Fore.RED+' [errore]'+  Style.RESET_ALL+'| videocamera disconnessa alle ore: ',current_time)
             time.sleep(1)
 
 if __name__ == "__main__":
