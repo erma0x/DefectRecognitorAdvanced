@@ -107,7 +107,7 @@ def main():
                 cv2.namedWindow(nome_pannello_di_controllo)
                 cv2.resizeWindow(nome_pannello_di_controllo, video_size_x, video_size_y)
 
-                # ottieni i valori delle trackbar dal pannello di controllo
+                # inizializza la trackbar con i vari parametri ed i loro massimi o minimi
                 cv2.createTrackbar("fps", nome_pannello_di_controllo, 0, 20, empty)
                 cv2.createTrackbar("exposition", nome_pannello_di_controllo, 0, 55000, empty)
                 cv2.createTrackbar("iso", nome_pannello_di_controllo, 0, 500, empty)
@@ -148,6 +148,9 @@ def main():
                     except:
                         print('💀'+Fore.RED+' [errore]'+  Style.RESET_ALL+' | impossibile ottenere il frame dalla videocamera')
 
+
+                    ################################################################################
+                    # ⚙️ PARAMETRI DELLA TRACKBAR
                     # ottieni i valori dalla trackbar
                     ricetta['fps'] = cv2.getTrackbarPos("fps", nome_pannello_di_controllo)
                     ricetta['exposition'] = cv2.getTrackbarPos("exposition", nome_pannello_di_controllo)
@@ -164,17 +167,16 @@ def main():
 
 
                     ##################################################################################
-                    # 🤖 ｃｏｍｐｕｔｅｒ   ｖｉｓｉｏｎ
+                    # 🤖 COMPUTER VISION
                     # i parametri modificati nel pannello di controllo con le trackbar vengono aggiornati ogni frame
 
                     frame = video_frame.getCvFrame()
 
                     frame_elaborato = systematik.computer_vision_system(frame, params=ricetta)
-                    
+        
                     cv2.imshow(nome_pannello_di_visualizzazione, frame_elaborato)
-
                     print('📷 esecuzione frame '+ Fore.GREEN + '[photo]' + Style.RESET_ALL)
-                    ##################################################################################
+
 
                     # se premi C esci dall'applicazione
                     if cv2.waitKey(2) == ord('c'):
@@ -186,9 +188,6 @@ def main():
                         contatore_foto += 1
                         time.sleep(0.1)
                                        
-                    # salva immagine
-                    # cv2.imwrite( path_salva_immagini  + '/t_' + counter + '.png',video_frame)
-
         # se c'è un errore durante l'applicazione stampa il tempo ed l'errore ed aspetta 1 secondo. 
         except:
             current_time = datetime.now().strftime("%H:%M:%S")
