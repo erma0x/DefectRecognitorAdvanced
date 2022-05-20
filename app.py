@@ -38,7 +38,8 @@ def main():
     '''
 
     ricetta = {} # parametri per scattare la foto ed elaborarla
-     
+    ################################################################################
+    # ESTRAI I PARAMETRI DELLA RICETTA_DEFAULT
     fps = ricetta_default['fps']                
     video_size_x = ricetta_default['video_size_x']                
     video_size_y = ricetta_default['video_size_y']                
@@ -57,25 +58,27 @@ def main():
     max_canny_a = ricetta_default['max_canny_a']     
     min_canny_b = ricetta_default['min_canny_b']     
     max_canny_b = ricetta_default['max_canny_b']      
+    ################################################################################
 
+    ################################################################################
+    # SOCKET SERVER
     # stampa logo, descrizione ed introduzione
     print(Fore.CYAN + LOGO + Style.RESET_ALL + '\n'+ descrizione )
     print('\n🚀 Computer Vision App '+ Fore.GREEN  +'[start]' + Style.RESET_ALL)
-    
     # TCP socket server basato su IPv4 
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
     # Associa l'indirizzo IP e il numero di porta
     s.bind((IP_SERVER, PORTA_SERVER))
-
     # il numero di porta può essere compreso tra 0-65535 (di solito le porte non privilegiate sono > 1023)
     s.listen(PORTA_SERVER)
-
     # accetta connessioni da uno specifico indirizzo
     connection , plc_address = s.accept()
     print(f"🛰️  connesso con macchina PLC con IP :  " + Fore.YELLOW + plc_address[0] + ':' + str(plc_address[1]) + Style.RESET_ALL )
+    ################################################################################
 
-    # inizializza videocamera di OpenKit con i seguenti parametri
+
+    ################################################################################
+    # INIZIALIZZA VIDEOCAMERA (depthai di OpenKit)
     pipeline = dai.Pipeline()
     controllo = dai.CameraControl()
     camRgb = pipeline.createColorCamera()
@@ -92,6 +95,7 @@ def main():
     xoutVideo.input.setBlocking(False)
     xoutVideo.input.setQueueSize(1)
     camRgb.video.link(xoutVideo.input)
+    ################################################################################
 
     contatore_foto = 0
 
@@ -104,10 +108,11 @@ def main():
                 cv2.namedWindow(nome_pannello_di_visualizzazione)
                 cv2.resizeWindow(nome_pannello_di_visualizzazione, video_size_x, video_size_y)
 
+                ################################################################################
+                # PANNELLO DI CONTROLLO con Trackbars
                 # crea panello di controllo
                 cv2.namedWindow(nome_pannello_di_controllo)
                 cv2.resizeWindow(nome_pannello_di_controllo, video_size_x, video_size_y)
-
                 # inizializza la trackbar con i vari parametri ed i loro massimi o minimi
                 cv2.createTrackbar("fps", nome_pannello_di_controllo, 0, 20, empty)
                 cv2.createTrackbar("exposition", nome_pannello_di_controllo, 0, 55000, empty)
@@ -121,16 +126,20 @@ def main():
                 cv2.createTrackbar("line_x", nome_pannello_di_controllo, 0, 255, empty)
                 cv2.createTrackbar("line_y", nome_pannello_di_controllo, 0, 255, empty)
                 cv2.createTrackbar("line_z", nome_pannello_di_controllo, 0, 255, empty)
+                ################################################################################
+
 
                 print('📷 videocamera '+ Fore.GREEN + '[online]' + Style.RESET_ALL)
                 
-                # inizializza videocamera
+                ################################################################################
+                # CONFIGURA VIDEOCAMERA
                 video = device.getOutputQueue(name=nome_pannello_di_visualizzazione, maxSize=1, blocking=False)
                 controlQueue = device.getInputQueue('control')
                 ctrl = dai.CameraControl()
                 ctrl.setManualExposure(exposition, iso)
                 ctrl.setAutoFocusMode(dai.CameraControl.AutoFocusMode.AUTO)
                 controlQueue.send(ctrl)
+                ################################################################################
 
                 while True: # all'infinito
 
@@ -165,6 +174,8 @@ def main():
                     ricetta['cartoon_x'] = cv2.getTrackbarPos("cartoon_x", nome_pannello_di_controllo)
                     ricetta['cartoon_y'] = cv2.getTrackbarPos("cartoon_y", nome_pannello_di_controllo)
                     ricetta['cartoon_z'] = cv2.getTrackbarPos("cartoon_z", nome_pannello_di_controllo)
+                    ################################################################################
+
 
 
                     ##################################################################################
@@ -173,11 +184,12 @@ def main():
 
                     frame = video_frame.getCvFrame()
 
-                    frame_elaborato = systematik.computer_vision_system(frame, params=ricetta)
+                    frame_elaborato = systematik.computer_vision_system(frame, params = ricetta)
                     
                     cv2.imshow(nome_pannello_di_visualizzazione, frame_elaborato)
                     print('📷 esecuzione frame '+ Fore.GREEN + '[photo]' + Style.RESET_ALL)
                     ##################################################################################
+
 
                     # se premi C esci dall'applicazione
                     if cv2.waitKey(2) == ord('c'):
@@ -192,7 +204,7 @@ def main():
         # se c'è un errore durante l'applicazione stampa il tempo ed l'errore ed aspetta 1 secondo. 
         except:
             current_time = datetime.now().strftime("%H:%M:%S")
-            print('💀'+Fore.RED+' [errore]'+  Style.RESET_ALL+'| videocamera disconnessa alle ore: ',current_time)
+            print('💀'+Fore.RED+' [errore]'+  Style.RESET_ALL+' videocamera disconnessa alle ore: ',current_time)
             time.sleep(1)
 
 if __name__ == "__main__":
