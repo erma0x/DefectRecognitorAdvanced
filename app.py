@@ -25,6 +25,7 @@ def empty(a):
     pass
 
 
+
 def main():
     '''
     Applicazione di Computer Vision
