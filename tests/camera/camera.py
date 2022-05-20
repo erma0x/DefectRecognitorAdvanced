@@ -1,9 +1,15 @@
 import numpy as np
 import cv2 as cv
 import sys
-from time import time
+from time import sleep
 import argparse
 
+''' IMPORTANTE
+python3 camera.py 2
+
+questo programma deve essere avviato dando il numero della porta usb connessa come parametro da terminale
+
+'''
 
 def rescale_frame(frame, percent=75):
     '''
@@ -56,7 +62,7 @@ def main(usb_port=0):
         if cv.waitKey(1) & 0xFF == ord('s'): #save on pressing 'y' 
             cv.imwrite(sys.path[0]+"/img/foto_"+str(i)+".png",frame) 
             i=i+1
-            time.sleep(0.1)
+            sleep(0.1)
 
 
     # rilascia la videocamera quando esci dal programma

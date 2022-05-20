@@ -173,10 +173,10 @@ def main():
                     frame = video_frame.getCvFrame()
 
                     frame_elaborato = systematik.computer_vision_system(frame, params=ricetta)
-        
+                    
                     cv2.imshow(nome_pannello_di_visualizzazione, frame_elaborato)
                     print('📷 esecuzione frame '+ Fore.GREEN + '[photo]' + Style.RESET_ALL)
-
+                    ##################################################################################
 
                     # se premi C esci dall'applicazione
                     if cv2.waitKey(2) == ord('c'):

@@ -1,7 +1,7 @@
 import socket
 
 def main():
-    '''
+    ''' server echo
     simula un server che invia riceve i dati dal client e li stampa a terminale
     '''
     HOST = "127.0.0.1"  # Indirizzo dell'interfaccia di loopback standard (localhost)

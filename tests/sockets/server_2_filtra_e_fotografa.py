@@ -2,19 +2,22 @@ import socket
 import sys
 import cv2
 
-def manda_dati_al_PLC(dati: str):
+def manda_dati_al_PLC(dati: str,IP_PLC: str,PORTA_PLC : int):
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.connect((IP_PLC, PORTA_PLC))
     msg = s.send(dati)
     print(msg.decode("utf-8") ) 
 
 
-def fai_una_foto():
-    cam_port = 0
-    cam = cv2.VideoCapture(cam_port)
+def fai_una_foto(porta_usb = 0):
+    cam = cv2.VideoCapture(porta_usb)
     # reading the input using the camera
     result, image = cam.read()
-    return image
+    if result:
+        return image
+    else:
+        print('Errore nel fare una foto')
+        return None
 
 def main():
     '''
@@ -44,14 +47,19 @@ def main():
         
         messaggio_plc = s.recv(1024).decode('utf-8')
 
-        if messaggio_plc: # se hai ricevuto dati
-            if str(messaggio_plc)[2]== b'f': # se il messaggio ha come primo carattere una 'f'
-                print(messaggio_plc)
+        if messaggio_plc: 
+            # se hai ricevuto dati
 
-                contatore +=1
-                output_foto_path = sys.path[0] + 'foto_'+ contatore +'.png'
+            if str(messaggio_plc)[2]== b'f': 
+                # se il messaggio ha come primo carattere una 'f'
+                
+                print(messaggio_plc)   # stampa messaggio
+
+                contatore += 1
+                output_foto_path = sys.path[0] + '/img/foto_'+ contatore +'.png'
                 fotografia =  fai_una_foto() 
-                cv2.imwrite(output_foto_path, fotografia)
+                if fotografia:
+                    cv2.imwrite(output_foto_path, fotografia)
 
 if __name__ == '__main__':
     main()
