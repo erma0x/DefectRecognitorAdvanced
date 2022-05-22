@@ -9,9 +9,12 @@ PIU FOTO CONTEMPORANEAMENTE
 [ ] fare una foto con 3 videocamere contemporaneamente
         term, viz, stereo
 
-DOCUMENTO
 
+
+DOCUMENTO
 Teachable Machine is an online tool allowing to quickly train a deep ... No need to capture too many images, ~100 images per class is usually well enough
+differenza IMG - IMG con oggetto
+
 
 
 #### **Funzioni da imparare di OpenCV**
