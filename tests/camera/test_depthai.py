@@ -1,19 +1,38 @@
+import sys
+import argparse
 from datetime import datetime
+from time import sleep
 import cv2
 import depthai as dai
-import sys
+
+INTERVALLO_SECONDI = 10
+
+# LANCIARE LO SCRIPT
+# python3  .\tests\camera\depthai_test.py "14442C1001293DD700" "viz"
 
 
 ########## parametri ################################################################
-
 # parametri per la videocamera di depthaAI
 nome_pannello_di_controllo = "video"
-FPS_frame = 10                                  # fps frame per second : intervallo fra 1-120 
+FPS_frame = 1                                  # fps frame per second : intervallo fra 1-120 
 manual_focus_parameter = 100                    # focus manuale : intervallo fra 0-255 
 expTime = 33000                                 # tempo di esposizione in milliseconds : intervallo fra 1-100_000
 sensIso = 100                                   # sensibilità del sensore della fotocamera : intervallo fra 0-500
 video_size_x = 1000                             # grandezza video asse X in pixels
 video_size_y = 700                              # grandezza video asse Y in pixels
+#######################################################################################
+
+
+
+parser = argparse.ArgumentParser()
+
+parser.add_argument('id_camera', type=str)  # ID modello videocamera OAK passato da linea di comando
+parser.add_argument('tipo_camera', type=str)     # nome cartella img in cui salvare le foto
+
+args = parser.parse_args()
+
+ID_CAMERA = args.id_camera
+TIPO_CAMERA = args.tipo_camera
 
 
 
@@ -66,11 +85,19 @@ xoutVideo.input.setQueueSize(1)
 camRgb.video.link(xoutVideo.input)
 
 
+
+found, device_info = dai.Device.getDeviceByMxId(ID_CAMERA)
+
+if not found:
+    raise RuntimeError("Device not found!")
+
 ######### start process #############################################################################
+
+i=0
 
 while True:
     try:
-        with dai.Device(pipeline) as device:
+        with dai.Device(pipeline, device_info) as device:
             video = device.getOutputQueue(name=nome_pannello_di_controllo, maxSize=1, blocking=False)
             controlQueue = device.getInputQueue('control')
             ctrl = dai.CameraControl()
@@ -85,11 +112,12 @@ while True:
                 cv2.resizeWindow(nome_pannello_di_controllo, video_size_x, video_size_y)
                 frame =  videoIn.getCvFrame()
                 cv2.imshow(nome_pannello_di_controllo, frame)
+                
+                i+=1
+                sleep(INTERVALLO_SECONDI)
+                cv2.imwrite(sys.path[0]+"/img/"+str(TIPO_CAMERA)+"/foto_"+str(i)+".png",frame) 
 
-                # se premi il tasto C salvi una foto
-                if cv2.waitKey(1) & 0xFF == ord('s'): #save on pressing 'y' 
-                    cv2.imwrite(sys.path[0]+"/foto_"+str(i)+".png",frame) 
-                    i=i+1
+
                     
                 if cv2.waitKey(2) == ord('c'):
                     break

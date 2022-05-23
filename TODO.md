@@ -5,6 +5,9 @@ IR BUCHI
 [ ] elaborare le foto dei buchi con il contrasto
 
 
+14442C1001293DD700 XLinkDeviceState.X_LINK_UNBOOTED
+169.254.1.222 XLinkDeviceState.X_LINK_BOOTLOADER
+
 PIU FOTO CONTEMPORANEAMENTE 
 [ ] fare una foto con 3 videocamere contemporaneamente
         term, viz, stereo

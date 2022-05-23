@@ -3,6 +3,7 @@ import cv2 as cv
 import sys
 from time import sleep
 import argparse
+import cv2
 
 ''' IMPORTANTE
 python3 camera.py 2
@@ -45,34 +46,43 @@ def main(usb_port=0):
 
     # contatore salva foto
     i = 0
-
+    
+    sleep(1)
+    INTERVALLO_SECONDI = 10
+    i=0
     while True:
         #cattura frame per frame dalla videocamera
         ret, frame = cap.read()
         # se ret non è uguale a True, esci dall'loop
-        if not ret:
-            print("impossible ricevere immagini dalla videocamera")
-            break
+        #if not ret:
+        #    print("impossible ricevere immagini dalla videocamera")
+        #    continue
 
         # riscala frame di una percentuale
-        frame_modified = rescale_frame(frame, percent=450)
-        cv.imshow('frame', frame_modified )
+       # frame_modified = rescale_frame(frame, percent=450)
+        
+        #if np.array(frame).any(): 
+        cv.imshow('frame', frame )
+
+        i+=1
+        sleep(INTERVALLO_SECONDI)
+        cv2.imwrite(sys.path[0]+"/img/term/foto_"+str(i)+".png",frame) 
 
         # se premi il tasto C salvi una foto
         if cv.waitKey(1) & 0xFF == ord('s'): #save on pressing 'y' 
-            cv.imwrite(sys.path[0]+"/img/foto_"+str(i)+".png",frame) 
+            cv.imwrite(sys.path[0]+"/img/foto_"+str(i)+"_"+str(KEY_USB)+".png",frame) 
             i=i+1
             sleep(0.1)
 
 
     # rilascia la videocamera quando esci dal programma
-    cap.release()
-    cv.destroyAllWindows()
+    #cap.release()
+    #cv.destroyAllWindows()
 
-    # testa se la videocamera è connessa
-    if not cap.isOpened():
-        print("Cannot open camera")
-        exit()
+    # testa se la videocamera è connessas
+    #if not cap.isOpened():
+    #    print("Cannot open camera")
+    #    exit()
         
 if __name__ == "__main__":
     main()
