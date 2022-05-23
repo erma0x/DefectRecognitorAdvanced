@@ -34,12 +34,19 @@ def main(usb_port=0):
     # python3 .\tests\camera\camera.py 0
     parser = argparse.ArgumentParser()
     parser.add_argument('usb', type=int)
+    parser.add_argument('cartella', type=str)
+    parser.add_argument('intervallo_secondi', type=int)
+
     args = parser.parse_args()
 
     # Inserisci 1 e connetti la videocamera al computer tramite USB
     # se non funziona prova tutte le porte USB lanciando questo script.
     # KEY_USB = 0
     KEY_USB = args.usb
+    CARTELLA = args.cartella
+
+    INTERVALLO_SECONDI = 10
+    INTERVALLO_SECONDI = args.intervallo_secondi
 
     # inizializza l'oggetto videocamera
     cap = cv.VideoCapture(KEY_USB)
@@ -48,7 +55,6 @@ def main(usb_port=0):
     i = 0
     
     sleep(1)
-    INTERVALLO_SECONDI = 10
     i=0
     while True:
         #cattura frame per frame dalla videocamera
@@ -66,23 +72,7 @@ def main(usb_port=0):
 
         i+=1
         sleep(INTERVALLO_SECONDI)
-        cv2.imwrite(sys.path[0]+"/img/term/foto_"+str(i)+".png",frame) 
-
-        # se premi il tasto C salvi una foto
-        if cv.waitKey(1) & 0xFF == ord('s'): #save on pressing 'y' 
-            cv.imwrite(sys.path[0]+"/img/foto_"+str(i)+"_"+str(KEY_USB)+".png",frame) 
-            i=i+1
-            sleep(0.1)
-
-
-    # rilascia la videocamera quando esci dal programma
-    #cap.release()
-    #cv.destroyAllWindows()
-
-    # testa se la videocamera è connessas
-    #if not cap.isOpened():
-    #    print("Cannot open camera")
-    #    exit()
+        cv2.imwrite(sys.path[0]+"/img/"+CARTELLA+"/foto_"+str(i)+".png",frame) 
         
 if __name__ == "__main__":
     main()
