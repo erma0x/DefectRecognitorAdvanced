@@ -6,4 +6,8 @@ numpy == 1.22.3
 opencv-python == 4.5.5.64
 pillow == 9.1.0
 tensorflow == 2.8.0
+<<<<<<< HEAD
 depthai == 2.15.1.0
+=======
+depthai == 2.15.4.0s
+>>>>>>> 20c5dd8c45c89226fccafb73a68b3649a07550ce
