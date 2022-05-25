@@ -52,10 +52,18 @@ while True:
         print("impossible ricevere immagini dalla videocamera")
         sleep(2)
 
-    # frame_modified = rescale_frame(frame, percent=450)
+   # frame_modified = rescale_frame(frame, percent=30)
 
     if np.array(frame).any(): 
-        cv.imshow('frame', frame )
         i+=1
-        cv2.imwrite(sys.path[0]+"/img/"+CARTELLA+"/foto_"+str(i)+".png",frame) 
+        path_immagine = sys.path[0]+"/img/"+CARTELLA+"/foto_"+str(i)+".png"
+        cv2.imwrite(path_immagine,frame) 
+        sleep(2)
+        img = cv2.imread(path_immagine)
+
+        frame_modified = rescale_frame(img, percent=30)
+        
+        
+        cv.imshow('immagine videocamera', img )
+
         sleep(INTERVALLO_SECONDI)
