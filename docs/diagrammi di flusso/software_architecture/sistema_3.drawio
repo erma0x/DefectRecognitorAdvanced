@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="VuwWoVwdQ7wxu-HWb0Wh" name="sistema completo 3">
-        <mxGraphModel dx="2279" dy="1053" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+        <mxGraphModel dx="1096" dy="438" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -27,19 +27,19 @@
                 </mxCell>
                 <mxCell id="31" value="&lt;span style=&quot;font-size: 12px ; background-color: rgb(248 , 249 , 250)&quot;&gt;real_1_infrared_2022_5_7_12_33_55.png&lt;/span&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="15" vertex="1" connectable="0">
                     <mxGeometry x="-0.3429" y="2" relative="1" as="geometry">
-                        <mxPoint as="offset"/>
+                        <mxPoint x="5" y="7" as="offset"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="57" style="edgeStyle=none;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;fontFamily=Verdana;fontSize=24;fillColor=#E8ECFF;" edge="1" parent="1" source="5" target="4">
+                <mxCell id="57" style="edgeStyle=none;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;fontFamily=Verdana;fontSize=24;fillColor=#E8ECFF;" parent="1" source="5" target="4" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="58" style="edgeStyle=none;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;fontFamily=Verdana;fontSize=24;fillColor=#E8ECFF;" edge="1" parent="1" source="5" target="54">
+                <mxCell id="58" style="edgeStyle=none;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;fontFamily=Verdana;fontSize=24;fillColor=#E8ECFF;" parent="1" source="5" target="54" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="59" style="edgeStyle=none;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;fontFamily=Verdana;fontSize=24;fillColor=#E8ECFF;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="5" target="3">
+                <mxCell id="59" style="edgeStyle=none;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;fontFamily=Verdana;fontSize=24;fillColor=#E8ECFF;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" parent="1" source="5" target="3" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="60" style="edgeStyle=none;html=1;exitX=0.25;exitY=0;exitDx=0;exitDy=0;fontFamily=Verdana;fontSize=24;fillColor=#E8ECFF;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="5" target="2">
+                <mxCell id="60" style="edgeStyle=none;html=1;exitX=0.25;exitY=0;exitDx=0;exitDy=0;fontFamily=Verdana;fontSize=24;fillColor=#E8ECFF;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" parent="1" source="5" target="2" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
                 <mxCell id="5" value="&lt;font style=&quot;font-size: 11px&quot;&gt;&lt;b&gt;Fotografo&lt;/b&gt;&lt;br&gt;&lt;/font&gt;&lt;font style=&quot;font-size: 8px&quot; face=&quot;Verdana&quot;&gt;nohup python3 fotografo.py&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#92D1E8;strokeColor=#82b366;" parent="1" vertex="1">
@@ -64,7 +64,7 @@
                         <mxPoint as="offset"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="53" style="edgeStyle=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.25;entryDx=0;entryDy=0;fontFamily=Verdana;fontSize=9;fillColor=#E8ECFF;" edge="1" parent="1" source="14" target="26">
+                <mxCell id="53" style="edgeStyle=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.25;entryDx=0;entryDy=0;fontFamily=Verdana;fontSize=9;fillColor=#E8ECFF;" parent="1" source="14" target="26" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
                             <mxPoint x="460" y="470"/>
@@ -140,21 +140,21 @@
                 <mxCell id="Amh03UeG707Rp0Mfh3sM-53" value="&lt;b&gt;FRONTEND&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#A8FFC5;" parent="1" vertex="1">
                     <mxGeometry x="205" y="720" width="210" height="80" as="geometry"/>
                 </mxCell>
-                <mxCell id="50" value="&lt;font style=&quot;font-size: 9px&quot;&gt;socket temporaneo&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=0" vertex="1" parent="1">
-                    <mxGeometry x="550" y="210" width="120" height="30" as="geometry"/>
+                <mxCell id="50" value="&lt;font style=&quot;font-size: 9px&quot;&gt;socket temporaneo&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=0" parent="1" vertex="1">
+                    <mxGeometry x="564" y="210" width="92" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="51" value="&lt;span style=&quot;font-weight: normal&quot;&gt;&lt;font face=&quot;Verdana&quot;&gt;errors&lt;/font&gt;&lt;/span&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontStyle=1" vertex="1" connectable="0" parent="1">
+                <mxCell id="51" value="&lt;span style=&quot;font-weight: normal&quot;&gt;&lt;font face=&quot;Verdana&quot;&gt;errors&lt;/font&gt;&lt;/span&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontStyle=1" parent="1" vertex="1" connectable="0">
                     <mxGeometry x="590.0029141692745" y="319.99611624702663" as="geometry">
                         <mxPoint x="13" y="-39" as="offset"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="52" value="&lt;font style=&quot;font-size: 8px&quot;&gt;.png high &amp;amp;&amp;nbsp;low&amp;nbsp;quality&amp;nbsp;&lt;br&gt;&lt;b&gt;originale&lt;/b&gt;&lt;/font&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="1">
+                <mxCell id="52" value="&lt;font style=&quot;font-size: 8px&quot;&gt;.png high &amp;amp;&amp;nbsp;low&amp;nbsp;quality&amp;nbsp;&lt;br&gt;&lt;b&gt;originale&lt;/b&gt;&lt;/font&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="1" vertex="1" connectable="0">
                     <mxGeometry x="455.9962483445073" y="465.00098633369987" as="geometry"/>
                 </mxCell>
-                <mxCell id="54" value="Stereo" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+                <mxCell id="54" value="Stereo" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
                     <mxGeometry x="390" y="140" width="90" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="61" value="&lt;span style=&quot;font-weight: normal&quot;&gt;&lt;font face=&quot;Verdana&quot;&gt;errors&lt;/font&gt;&lt;/span&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontStyle=1" vertex="1" connectable="0" parent="1">
+                <mxCell id="61" value="&lt;span style=&quot;font-weight: normal&quot;&gt;&lt;font face=&quot;Verdana&quot;&gt;errors&lt;/font&gt;&lt;/span&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontStyle=1" parent="1" vertex="1" connectable="0">
                     <mxGeometry x="600.0029141692745" y="579.9961162470266" as="geometry">
                         <mxPoint x="13" y="-39" as="offset"/>
                     </mxGeometry>

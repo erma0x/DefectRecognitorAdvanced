@@ -6,39 +6,35 @@ import cv2
 import depthai as dai
 
 
-# LANCIARE LO SCRIPT
-# python3  .\tests\camera\depthai_test.py "14442C1001293DD700" "viz"
+# esempio di come lanciare lo script                      
+# python3  .\tests\camera\depthai_test.py --id_camera "14442C1001293DD700" --nome_cartella "viz" --intervallo_secondi 4
 
 
-########## parametri ################################################################
-# parametri per la videocamera di depthaAI
+
+
+# parametri camera depthaAI
 nome_pannello_di_controllo = "video"
-FPS_frame = 5                                  # fps frame per second : intervallo fra 1-120 
-manual_focus_parameter = 100                    # focus manuale : intervallo fra 0-255 
+FPS_frame = 1                                  # fps frame per second : intervallo fra 1-120 
+manual_focus_parameter = 50                    # focus manuale : intervallo fra 0-255 
 expTime = 33000                                 # tempo di esposizione in milliseconds : intervallo fra 1-100_000
 sensIso = 100                                   # sensibilità del sensore della fotocamera : intervallo fra 0-500
 video_size_x = 1000                             # grandezza video asse X in pixels
 video_size_y = 700                              # grandezza video asse Y in pixels
 
-#####################################################################################
 
-parser = argparse.ArgumentParser()
 
-parser.add_argument('id_camera', type=str)  # ID modello videocamera OAK passato da linea di comando
-parser.add_argument('tipo_camera', type=str)     # nome cartella img in cui salvare le foto
-parser.add_argument('intervallo_secondi', type=int)     
+parser = argparse.ArgumentParser(description='Test fotografie ad intervalli regolari con camere di tipo OAK')
+
+parser.add_argument('--id_camera', type=str, required=True , default="14442C1001293DD700" ,help="ID della camera OAK")     # ID modello videocamera OAK passato da linea di comando
+parser.add_argument('--nome_cartella', type=str, required=True, default="viz", help="nome cartella esistente dentro img/ dove salvare le foto")            # nome cartella img in cui salvare le foto
+parser.add_argument('--intervallo_secondi', type=int,default=4,help="intervallo di secondi fra 2 fotografie")     
 
 args = parser.parse_args()
 
 ID_CAMERA = args.id_camera
-TIPO_CAMERA = args.tipo_camera
-
-INTERVALLO_SECONDI = 10
+NOME_CARTELLA = args.nome_cartella
 INTERVALLO_SECONDI = args.intervallo_secondi
 
-
-
-######### inizializzazione ##############################################################
 
 # inizializza la videocamera con depthai
 pipeline = dai.Pipeline()
@@ -58,14 +54,10 @@ camRgb.setResolution(dai.ColorCameraProperties.SensorResolution.THE_4_K)        
 camRgb.setFps(float(FPS_frame))
 
 
-
-######### focus control #########################################################################
-# setta la modalità per il focus automatico
-# modalita' di focus: AUTO, MACRO, CONTINUOUS_VIDEO, CONTINUOUS_PICTURE, OFF, EDOF
-controllo.setAutoFocusMode(dai.CameraControl.AutoFocusMode.AUTO)
-
-# setta il focus in manuale usare il seguente comando
+# modalita' focus automatico: AUTO, MACRO, CONTINUOUS_VIDEO, CONTINUOUS_PICTURE, OFF, EDOF
+#controllo.setAutoFocusMode(dai.CameraControl.AutoFocusMode.AUTO)
 controllo.setManualFocus(manual_focus_parameter)
+
 
 # setta la regione da zoommare e gestire con l'autofocus
 #controllo.setAutoFocusRegion(dai.CameraControl,int(1670),int(770),int(660),int(500))
@@ -74,10 +66,12 @@ controllo.setManualFocus(manual_focus_parameter)
 # setta la grandezza video con le coordinate X & Y in pixels
 camRgb.setVideoSize(video_size_x, video_size_y)
 
+
 # modalità disponibili: ACTION, STEADYPHOTO
 #controllo.setSceneMode(dai.CameraControl.SceneMode.ACTION)
 
-# setta il tempo di esposizione manuale 
+
+# setta il tempo di esposizione manuale
 #controllo.setManualExposure(expTime,sensIso)
 #controlQueue.send(controllo)
 
@@ -90,21 +84,20 @@ found, device_info = dai.Device.getDeviceByMxId(ID_CAMERA)
 if not found:
     raise RuntimeError("Videocamera non trovata! Perfavore riprova")
 
-######### start process #############################################################################
 
+# start app 
 i=0
 
-while True:
+try:
     with dai.Device(pipeline, device_info) as device:
         video = device.getOutputQueue(name=nome_pannello_di_controllo, maxSize=1, blocking=False)
         controlQueue = device.getInputQueue('control')
         ctrl = dai.CameraControl()
         ctrl.setManualExposure(expTime, sensIso)
-        ctrl.setAutoFocusMode(dai.CameraControl.AutoFocusMode.AUTO)
+        #ctrl.setAutoFocusMode(dai.CameraControl.AutoFocusMode.AUTO)
         controlQueue.send(ctrl)  
-    
+
         while True:
-        
             videoIn = video.get()
             cv2.namedWindow(nome_pannello_di_controllo, cv2.WINDOW_NORMAL)
             cv2.resizeWindow(nome_pannello_di_controllo, video_size_x, video_size_y)
@@ -113,7 +106,10 @@ while True:
             
             i+=1
             sleep(int(INTERVALLO_SECONDI))
-            cv2.imwrite(sys.path[0]+"/img/"+str(TIPO_CAMERA)+"/foto_"+str(i)+".png",frame) 
+            cv2.imwrite(sys.path[0]+"/img/"+str(NOME_CARTELLA)+"/foto_"+str(i)+".png",frame) 
 
             if cv2.waitKey(2) == ord('c'):
                 break
+
+except RuntimeError:
+    print("Errore nel catturare le fotografie")
