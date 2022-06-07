@@ -84,6 +84,7 @@ ________________________________________________________________
     (Windows) <br>
 ```venv\Scripts\activate```
 
+```python -m pip install --upgrade pip```
 
 4. Installare delle librerie richieste <br> 
 ``` pip install -r ./requirements.txt```

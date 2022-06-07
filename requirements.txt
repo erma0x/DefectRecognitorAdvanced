@@ -1,13 +1,10 @@
 colorama == 0.4.4
-virtualenv
+virtualenv == 20.14.1 
 matplotlib == 3.5.1
 pandas == 1.4.2
 numpy == 1.22.3
 opencv-python == 4.5.5.64
 pillow == 9.1.0
-tensorflow == 2.8.0
-<<<<<<< HEAD
-depthai == 2.15.1.0
-=======
-depthai == 2.15.4.0s
->>>>>>> 20c5dd8c45c89226fccafb73a68b3649a07550ce
+tensorflow == 2.9.0
+depthai == 2.15.4.0
+keras == 2.9.0 

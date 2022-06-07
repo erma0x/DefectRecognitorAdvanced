@@ -25,7 +25,6 @@ def empty(a):
     pass
 
 
-
 def main():
     '''
     Applicazione di Computer Vision
@@ -38,6 +37,7 @@ def main():
     '''
 
     ricetta = {} # parametri per scattare la foto ed elaborarla
+    
     ################################################################################
     # ESTRAI I PARAMETRI DELLA RICETTA_DEFAULT
     fps = ricetta_default['fps']                
@@ -59,6 +59,8 @@ def main():
     min_canny_b = ricetta_default['min_canny_b']     
     max_canny_b = ricetta_default['max_canny_b']      
     ################################################################################
+
+
 
     ################################################################################
     # SOCKET SERVER
@@ -200,7 +202,8 @@ def main():
                         cv2.imwrite(sys.path[0]+"/data/img/viz/foto_"+str(contatore_foto)+".png",frame)
                         contatore_foto += 1
                         time.sleep(0.1)
-                                       
+
+                                     
         # se c'è un errore durante l'applicazione stampa il tempo ed l'errore ed aspetta 1 secondo. 
         except:
             current_time = datetime.now().strftime("%H:%M:%S")

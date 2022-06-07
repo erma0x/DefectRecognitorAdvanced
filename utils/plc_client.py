@@ -4,12 +4,19 @@ import random as rnd
 from datetime import datetime
 from colorama import Fore, Style
 
+'''
+SIMULATORE DEL Socket della PLC con PYTHON
 
+socket ad utilizzo di test come sostituto al PLC.
+Invia messaggi ogni tot di tempo
+    
+'''
+
+global IP_SERVER = "127.0.0.1"
+global PORT_SERVER = 1234
+    
+    
 def testing_socket(ip = "127.0.0.1", port=1234):
-    '''
-    socket ad utilizzo di test come sostituto al PLC.
-    Invia messaggi ogni tot di tempo
-    '''
     # parametri per generare intervalli di tempo per simulare il socket PLC
     minimo_intervallo_di_secondi = 2
     massimo_intervallo_di_secondi = 15
@@ -49,8 +56,6 @@ def testing_socket(ip = "127.0.0.1", port=1234):
 
 
 if __name__ == "__main__":
-    
-    IP_SERVER = "127.0.0.1"
-    PORT_SERVER = 1234
-
     testing_socket(IP_SERVER,PORT_SERVER)
+ 
+    

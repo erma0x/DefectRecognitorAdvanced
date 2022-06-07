@@ -19,8 +19,8 @@ LOGO ="""
 
 descrizione ='''
 App Computer Vision
-- accetta messaggio PLC
-- scatta foto
-- elabora foto
-- restituisci valore al PLC
+1- accetta messaggio PLC
+2- scatta foto
+3- elabora foto
+4- restituisci valore al PLC
 '''
