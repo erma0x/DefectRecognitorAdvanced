@@ -1,5 +1,4 @@
 # Computer Vision System
-**Systematik s.r.l. 2022**
 
 ![img](./data/images/examples/logo2.png)
 
