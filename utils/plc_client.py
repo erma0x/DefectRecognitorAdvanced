@@ -5,10 +5,10 @@ from datetime import datetime
 from colorama import Fore, Style
 
 '''
-SIMULATORE DEL Socket della PLC con PYTHON
+SIMULATORE socket di PLC
 
 socket ad utilizzo di test come sostituto al PLC.
-Invia messaggi ogni tot di tempo
+Invia messaggi ogni tot di tempo randomico
     
 '''
 
@@ -19,7 +19,7 @@ global PORT_SERVER = 1234
 def testing_socket(ip = "127.0.0.1", port=1234):
     # parametri per generare intervalli di tempo per simulare il socket PLC
     minimo_intervallo_di_secondi = 2
-    massimo_intervallo_di_secondi = 15
+    massimo_intervallo_di_secondi = 5
     intervallo_di_secondi_per_disconnessione = 2
 
     while True: # all'infinito

@@ -103,6 +103,7 @@ def computer_vision_system(immagine, params):
     # crea una maschera
     hsv_color1 = np.asarray([0, 0, 0])
     hsv_color2 = np.asarray([60, 255, 255])
+    
     mask = cv2.inRange( immagine_hsv, hsv_color1, hsv_color2)
 
     # inverti i pixel della maschera

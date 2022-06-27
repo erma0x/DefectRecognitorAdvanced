@@ -9,15 +9,18 @@ from copy import deepcopy
 
 # librerie di terze parti
 import numpy as np
+import pandas as pd
+from matplotlib.pyplot as plt
 from colorama import Fore, Back, Style
-import cv2
-from PIL import Image
-from matplotlib import cm
-import depthai as dai
 
-# file del progetto
+from PIL import Image
+import cv2
+import depthai as dai
+ 
+
+# moduli del progetto
 import utils.systematik_opencv as systematik
-from utils.params_network import PORTA_SERVER, IP_SERVER, IP_PLC, PORTA_PLC
+from utils.params import PORTA_SERVER, IP_SERVER, IP_PLC, PORTA_PLC
 from utils.ricette import ricetta_default
 from utils.estetica import LOGO, descrizione, nome_pannello_di_controllo, nome_pannello_di_visualizzazione
 
@@ -38,6 +41,7 @@ def main():
 
     ricetta = {} # parametri per scattare la foto ed elaborarla
     
+
     ################################################################################
     # ESTRAI I PARAMETRI DELLA RICETTA_DEFAULT
     fps = ricetta_default['fps']                
@@ -79,6 +83,7 @@ def main():
     ################################################################################
 
 
+
     ################################################################################
     # INIZIALIZZA VIDEOCAMERA (depthai di OpenKit)
     pipeline = dai.Pipeline()
@@ -99,7 +104,9 @@ def main():
     camRgb.video.link(xoutVideo.input)
     ################################################################################
 
+
     contatore_foto = 0
+
 
     while True:
         try:
@@ -129,7 +136,6 @@ def main():
                 cv2.createTrackbar("line_y", nome_pannello_di_controllo, 0, 255, empty)
                 cv2.createTrackbar("line_z", nome_pannello_di_controllo, 0, 255, empty)
                 ################################################################################
-
 
                 print('📷 videocamera '+ Fore.GREEN + '[online]' + Style.RESET_ALL)
                 
@@ -184,13 +190,15 @@ def main():
                     # 🤖 COMPUTER VISION
                     # i parametri modificati nel pannello di controllo con le trackbar vengono aggiornati ogni frame
 
-                    frame = video_frame.getCvFrame()
+                    frame = video_frame.getCvFrame() # ottieni il frame da videocamere luxonis
 
                     frame_elaborato = systematik.computer_vision_system(frame, params = ricetta)
                     
                     cv2.imshow(nome_pannello_di_visualizzazione, frame_elaborato)
+
                     print('📷 esecuzione frame '+ Fore.GREEN + '[photo]' + Style.RESET_ALL)
                     ##################################################################################
+
 
 
                     # se premi C esci dall'applicazione
