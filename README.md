@@ -273,3 +273,8 @@ Questa cartella contiene tutta la documentazione riguardante il progetto. Risult
         bugs/
 
 <br>
+________________________________________________________________
+
+## Reti neurali
+
+modelli di YOLO disponinibili https://github.com/ultralytics/yolov3/releases
