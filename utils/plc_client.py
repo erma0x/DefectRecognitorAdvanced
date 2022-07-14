@@ -3,7 +3,7 @@ import time
 import random as rnd
 from datetime import datetime
 from colorama import Fore, Style
-
+from params import IP_SERVER, PORTA_SERVER
 '''
 SIMULATORE socket di PLC
 
@@ -11,11 +11,6 @@ socket ad utilizzo di test come sostituto al PLC.
 Invia messaggi ogni tot di tempo randomico
     
 '''
-
-global IP_SERVER 
-global PORT_SERVER 
-IP_SERVER = "127.0.0.1"
-PORT_SERVER = 1234
     
 def testing_socket(ip = "127.0.0.1", port=1234):
     # parametri per generare intervalli di tempo per simulare il socket PLC
@@ -32,7 +27,7 @@ def testing_socket(ip = "127.0.0.1", port=1234):
 
         try:
             # inizializza il socket con IPv4 e straming socket
-            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
             # connetti il socket al server della applicazione
             sock.connect((ip, port))
@@ -47,15 +42,15 @@ def testing_socket(ip = "127.0.0.1", port=1234):
             sock.close()
 
             # stampa logs
-            print('🆗 '+ Fore.GREEN +' [running socket]'+ Style.RESET_ALL+' al server IP: '+IP_SERVER+':'+str(PORT_SERVER)+'  messaggio: ' + Fore.BLUE  +str(MESSAGE)  + Style.RESET_ALL + ' alle ore '+  Fore.YELLOW  +str(current_time) + Style.RESET_ALL)
+            print('🆗 '+ Fore.GREEN +' [running socket]'+ Style.RESET_ALL+' al server IP: '+IP_SERVER+':'+str(PORTA_SERVER)+'  messaggio: ' + Fore.BLUE  +str(MESSAGE)  + Style.RESET_ALL + ' alle ore '+  Fore.YELLOW  +str(current_time) + Style.RESET_ALL)
 
         except: 
             # quando succede un qualsiasi errore eseguisci le linee qui sotto 
-            print('Errore 🔥',Fore.RED +current_time+Style.RESET_ALL,f'Connessione al server {IP_SERVER}:{PORT_SERVER} non riuscita ') 
+            print('Errore 🔥',Fore.RED +current_time+Style.RESET_ALL,f'Connessione al server {IP_SERVER}:{PORTA_SERVER} non riuscita ') 
             time.sleep(intervallo_di_secondi_per_disconnessione)
 
 
 if __name__ == "__main__":
-    testing_socket(IP_SERVER,PORT_SERVER)
+    testing_socket()#IP_SERVER,PORTA_SERVER)
  
     

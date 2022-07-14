@@ -49,14 +49,13 @@ def main():
 
     KEY_USB = 2 # porta USB videocamera
     # inizializza l'oggetto videocamera
-    cap = cv2.VideoCapture(KEY_USB)
-
+    videocamera = cv2.VideoCapture(KEY_USB)
+    
     # risoluzione 12.3 MegaPixels
-
     fattore_bassa_risoluzione = 10
 
-    cap.set(3, 4295/fattore_bassa_risoluzione)  # Set horizontal resolution
-    cap.set(4, 2864/fattore_bassa_risoluzione)  # Set vertical resolution
+    videocamera.set(3, 4295/fattore_bassa_risoluzione)  # Set horizontal resolution
+    videocamera.set(4, 2864/fattore_bassa_risoluzione)  # Set vertical resolution
 
     ########################################################################################
     # PARAMETRI
@@ -74,7 +73,7 @@ def main():
     ap.add_argument('-s', '--save',default=True, required=False,
                     help = 'save the frames') 
 
-    ap.add_argument('-v', '--visualize', default=True , required=False,
+    ap.add_argument('-v', '--visualize', default=False , required=False,
                     help = 'visualize frames on panel')
 
     ap.add_argument('-w', '--weights', default = "yolo_defects.pt", required=False,
@@ -134,160 +133,158 @@ def main():
     ################################################################################
 
     while True:
-        try:
-            ################################################################################
-            # PANNELLI DI VISUALIZZAZIONE e DI CONTROLLO
-            # crea interfaccia per visualizzare i risultati
-            cv2.namedWindow(nome_pannello_di_visualizzazione)
-            cv2.resizeWindow(nome_pannello_di_visualizzazione, video_size_x, video_size_y)
+        #try:
+        ################################################################################
+        # PANNELLI DI VISUALIZZAZIONE e DI CONTROLLO
+        # crea interfaccia per visualizzare i risultati
+        cv2.namedWindow(nome_pannello_di_visualizzazione)
+        cv2.resizeWindow(nome_pannello_di_visualizzazione, video_size_x, video_size_y)
 
-            # crea panello di controllo
-            cv2.namedWindow(nome_pannello_di_controllo)
-            cv2.resizeWindow(nome_pannello_di_controllo, video_size_x, video_size_y)
+        # crea panello di controllo
+        cv2.namedWindow(nome_pannello_di_controllo)
+        cv2.resizeWindow(nome_pannello_di_controllo, video_size_x, video_size_y)
 
-            #if args.visualize in ('True',True,'T','t'):
+        #if args.visualize in ('True',True,'T','t'):
 
-            # inizializza la trackbar con i vari parametri ed i loro massimi o minimi
-            cv2.createTrackbar("fps", nome_pannello_di_controllo, 0, 20, empty)
-            cv2.createTrackbar("exposition", nome_pannello_di_controllo, 0, 55000, empty)
-            cv2.createTrackbar("iso", nome_pannello_di_controllo, 0, 500, empty)
-            cv2.createTrackbar("focus", nome_pannello_di_controllo, 0, 1000, empty)
+        # inizializza la trackbar con i vari parametri ed i loro massimi o minimi
+        cv2.createTrackbar("fps", nome_pannello_di_controllo, 0, 20, empty)
+        cv2.createTrackbar("exposition", nome_pannello_di_controllo, 0, 55000, empty)
+        cv2.createTrackbar("iso", nome_pannello_di_controllo, 0, 500, empty)
+        cv2.createTrackbar("focus", nome_pannello_di_controllo, 0, 1000, empty)
 
-            # cv2.createTrackbar("canny_x", nome_pannello_di_controllo, 0, 255, empty)
-            # cv2.createTrackbar("canny_y", nome_pannello_di_controllo, 0, 255, empty)
+        # cv2.createTrackbar("canny_x", nome_pannello_di_controllo, 0, 255, empty)
+        # cv2.createTrackbar("canny_y", nome_pannello_di_controllo, 0, 255, empty)
 
-            cv2.createTrackbar("cartoon_x", nome_pannello_di_controllo, 0, 255, empty)
-            cv2.createTrackbar("cartoon_y", nome_pannello_di_controllo, 0, 255, empty)
-            cv2.createTrackbar("cartoon_z", nome_pannello_di_controllo, 0, 255, empty)
+        cv2.createTrackbar("cartoon_x", nome_pannello_di_controllo, 0, 255, empty)
+        cv2.createTrackbar("cartoon_y", nome_pannello_di_controllo, 0, 255, empty)
+        cv2.createTrackbar("cartoon_z", nome_pannello_di_controllo, 0, 255, empty)
 
-            # cv2.createTrackbar("line_x", nome_pannello_di_controllo, 0, 255, empty)
-            # cv2.createTrackbar("line_y", nome_pannello_di_controllo, 0, 255, empty)
-            # cv2.createTrackbar("line_z", nome_pannello_di_controllo, 0, 255, empty)
+        # cv2.createTrackbar("line_x", nome_pannello_di_controllo, 0, 255, empty)
+        # cv2.createTrackbar("line_y", nome_pannello_di_controllo, 0, 255, empty)
+        # cv2.createTrackbar("line_z", nome_pannello_di_controllo, 0, 255, empty)
 
-            cv2.createTrackbar("hsv_1_x", nome_pannello_di_controllo, 0, 255, empty)
-            cv2.createTrackbar("hsv_1_y", nome_pannello_di_controllo, 0, 255, empty)
-            cv2.createTrackbar("hsv_1_z", nome_pannello_di_controllo, 0, 255, empty)
+        cv2.createTrackbar("hsv_1_x", nome_pannello_di_controllo, 0, 255, empty)
+        cv2.createTrackbar("hsv_1_y", nome_pannello_di_controllo, 0, 255, empty)
+        cv2.createTrackbar("hsv_1_z", nome_pannello_di_controllo, 0, 255, empty)
 
-            cv2.createTrackbar("hsv_2_x", nome_pannello_di_controllo, 0, 255, empty)
-            cv2.createTrackbar("hsv_2_y", nome_pannello_di_controllo, 0, 255, empty)
-            cv2.createTrackbar("hsv_2_z", nome_pannello_di_controllo, 0, 255, empty)
+        cv2.createTrackbar("hsv_2_x", nome_pannello_di_controllo, 0, 255, empty)
+        cv2.createTrackbar("hsv_2_y", nome_pannello_di_controllo, 0, 255, empty)
+        cv2.createTrackbar("hsv_2_z", nome_pannello_di_controllo, 0, 255, empty)
 
-            # cv2.createTrackbar("min_canny_a", nome_pannello_di_controllo, 0, 255, empty)
-            # cv2.createTrackbar("max_canny_a", nome_pannello_di_controllo, 0, 255, empty)
-            # cv2.createTrackbar("min_canny_b", nome_pannello_di_controllo, 0, 255, empty)
-            # cv2.createTrackbar("max_canny_b", nome_pannello_di_controllo, 0, 255, empty)
+        # cv2.createTrackbar("min_canny_a", nome_pannello_di_controllo, 0, 255, empty)
+        # cv2.createTrackbar("max_canny_a", nome_pannello_di_controllo, 0, 255, empty)
+        # cv2.createTrackbar("min_canny_b", nome_pannello_di_controllo, 0, 255, empty)
+        # cv2.createTrackbar("max_canny_b", nome_pannello_di_controllo, 0, 255, empty)
 
-            ################################################################################
-
-
-            print('📷 videocamera '+ Fore.GREEN + '\t[online]' + Style.RESET_ALL)
+        ################################################################################
 
 
-            ################################################################################
-            # SOCKET
-            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # TCP socket server basato su IPv4 
-            
-            try:
-                # Associa l'indirizzo IP e il numero di porta
-                s.bind((IP_SERVER, PORTA_SERVER))
+        print('📷 videocamera '+ Fore.GREEN + '\t[online]' + Style.RESET_ALL)
 
-            except:
-                s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
-            # il numero di porta può essere compreso tra 0-65535 (di solito le porte non privilegiate sono > 1023)
-            s.listen(PORTA_SERVER)
+        ################################################################################
+        # SOCKET
+        #s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # TCP socket server basato su IPv4 
+        sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        sock.bind((IP_SERVER,PORTA_SERVER))
 
-            # accetta connessioni da uno specifico indirizzo
-            connection, addr = s.accept()
-            print(f"🛰️  connesso con macchina PLC con IP :  " + Fore.YELLOW + addr[0] + ':' + str(addr[1]) + Style.RESET_ALL )
-            
+        #s.connect((IP_PLC,PORTA_PLC))
 
-            while True: # all'infinito
+        #except:
+        #    s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        print("Listening on " + IP_SERVER + ":" + str(PORTA_SERVER))
 
-                connection, addr = s.accept()
+        # il numero di porta può essere compreso tra 0-65535 (di solito le porte non privilegiate sono > 1023)
+        
+        
+        # accetta connessioni da uno specifico indirizzo
+        #connection, addr = s.accept()
+        #print(f"🛰️  connesso con macchina PLC con IP :  " + Fore.YELLOW + addr[0] + ':' + str(addr[1]) + Style.RESET_ALL )
+        #s.listen(PORTA_SERVER)
 
-                str_return = "connected to the server."
-                connection.sendto(bytes(str_return, 'utf-8'), addr)
+        while True:
 
-                data, temp = connection.recvfrom(1024)
+            payload, client_address = sock.recvfrom(1024)
 
-                connection.close()
+            print("Messaggio ricevuto da : " + str(client_address[0])+':'+str(client_address[1]), " messaggio ",payload)
 
-                # fare attivare da qua sotto lo script
-                # filtro per la PLC, se i dati contengono come primo carattere 'f' fai una foto
-                if 'f' in str(data)[2]: 
+
+            # fare attivare da qua sotto lo script
+            # filtro per la PLC, se i dati contengono come primo carattere 'f' fai una foto
+            if 'f' in str(payload)[2]: 
+
+                #connection.close()
+                id_pezzo = str(payload)[1:].replace("'","").split(',')[1]
+
+                print('\n📡 dati ricevuti da PLC: ' + Fore.BLUE  + str(payload)  + Style.RESET_ALL + ' id pezzo' ,id_pezzo)
+
+                try:
+                    # ottieni un immagine dalla videocamera
+                    check, frame = deepcopy(videocamera.read())                
+                    print('📷'+ Fore.GREEN + 'taking photo' + Style.RESET_ALL,'\n')
+
+                    if type(frame) == type(None) or not check:
+                        print("Errore : non e'possibile scattare fotografie ")
+                        break
                     
-                    #connection.close()
+                    if not videocamera:
+                        print("Errore : inizializzazione errata dell'oggetto videocamera")
 
-                    id_pezzo = str(data)[1:].replace("'","").split(',')[1]
+                except:
+                    print('💀'+Fore.RED+' [errore]'+  Style.RESET_ALL+' | impossibile ottenere il frame dalla videocamera')
 
-                    print('\n📡 dati ricevuti da PLC: ' + Fore.BLUE  + str(data)  + Style.RESET_ALL + ' id pezzo' ,id_pezzo)
+                ################################################################################
+                #PARAMETRI TRACKBAR RICETTA
+                # ottieni i valori dalla trackbar
+                ricetta['fps'] = cv2.getTrackbarPos("fps", nome_pannello_di_controllo)
+                ricetta['exposition'] = cv2.getTrackbarPos("exposition", nome_pannello_di_controllo)
+                ricetta['iso'] = cv2.getTrackbarPos("iso", nome_pannello_di_controllo)
+                ricetta['focus'] = cv2.getTrackbarPos("focus", nome_pannello_di_controllo)
 
+                ricetta['canny_x'] = cv2.getTrackbarPos("canny_x", nome_pannello_di_controllo)
+                ricetta['canny_y'] = cv2.getTrackbarPos("canny_y", nome_pannello_di_controllo)
 
-                    try:
-                        # ottieni un immagine dalla videocamera
-                        ret, frame = cap.read()                
-                        print('📷'+ Fore.GREEN + 'taking photo' + Style.RESET_ALL,'\n')
+                ricetta['line_x'] = cv2.getTrackbarPos("line_x", nome_pannello_di_controllo)
+                ricetta['line_y'] = cv2.getTrackbarPos("line_y", nome_pannello_di_controllo)
+                ricetta['line_z'] = cv2.getTrackbarPos("line_z", nome_pannello_di_controllo)
 
-                        if type(frame) == type(None):
-                            print("Errore : non e'possibile scattare fotografie ")
-                            break
-                        
-                        if not cap:
-                            print("Errore : inizializzazione errata dell'oggetto videocamera")
+                ricetta['cartoon_x'] = cv2.getTrackbarPos("cartoon_x", nome_pannello_di_controllo)
+                ricetta['cartoon_y'] = cv2.getTrackbarPos("cartoon_y", nome_pannello_di_controllo)
+                ricetta['cartoon_z'] = cv2.getTrackbarPos("cartoon_z", nome_pannello_di_controllo)
 
-                    except:
-                        print('💀'+Fore.RED+' [errore]'+  Style.RESET_ALL+' | impossibile ottenere il frame dalla videocamera')
+                ricetta['hsv_1_x'] = cv2.getTrackbarPos("hsv_1_x", nome_pannello_di_controllo)
+                ricetta['hsv_1_y'] = cv2.getTrackbarPos("hsv_1_y", nome_pannello_di_controllo)
+                ricetta['hsv_1_z'] = cv2.getTrackbarPos("hsv_1_z", nome_pannello_di_controllo)
 
-                    ################################################################################
-                    #PARAMETRI TRACKBAR RICETTA
-                    # ottieni i valori dalla trackbar
-                    ricetta['fps'] = cv2.getTrackbarPos("fps", nome_pannello_di_controllo)
-                    ricetta['exposition'] = cv2.getTrackbarPos("exposition", nome_pannello_di_controllo)
-                    ricetta['iso'] = cv2.getTrackbarPos("iso", nome_pannello_di_controllo)
-                    ricetta['focus'] = cv2.getTrackbarPos("focus", nome_pannello_di_controllo)
+                ricetta['hsv_2_x'] = cv2.getTrackbarPos("hsv_2_x", nome_pannello_di_controllo)
+                ricetta['hsv_2_y'] = cv2.getTrackbarPos("hsv_2_y", nome_pannello_di_controllo)
+                ricetta['hsv_2_z'] = cv2.getTrackbarPos("hsv_2_z", nome_pannello_di_controllo)
 
-                    ricetta['canny_x'] = cv2.getTrackbarPos("canny_x", nome_pannello_di_controllo)
-                    ricetta['canny_y'] = cv2.getTrackbarPos("canny_y", nome_pannello_di_controllo)
-
-                    ricetta['line_x'] = cv2.getTrackbarPos("line_x", nome_pannello_di_controllo)
-                    ricetta['line_y'] = cv2.getTrackbarPos("line_y", nome_pannello_di_controllo)
-                    ricetta['line_z'] = cv2.getTrackbarPos("line_z", nome_pannello_di_controllo)
-
-                    ricetta['cartoon_x'] = cv2.getTrackbarPos("cartoon_x", nome_pannello_di_controllo)
-                    ricetta['cartoon_y'] = cv2.getTrackbarPos("cartoon_y", nome_pannello_di_controllo)
-                    ricetta['cartoon_z'] = cv2.getTrackbarPos("cartoon_z", nome_pannello_di_controllo)
-
-                    ricetta['hsv_1_x'] = cv2.getTrackbarPos("hsv_1_x", nome_pannello_di_controllo)
-                    ricetta['hsv_1_y'] = cv2.getTrackbarPos("hsv_1_y", nome_pannello_di_controllo)
-                    ricetta['hsv_1_z'] = cv2.getTrackbarPos("hsv_1_z", nome_pannello_di_controllo)
-
-                    ricetta['hsv_2_x'] = cv2.getTrackbarPos("hsv_2_x", nome_pannello_di_controllo)
-                    ricetta['hsv_2_y'] = cv2.getTrackbarPos("hsv_2_y", nome_pannello_di_controllo)
-                    ricetta['hsv_2_z'] = cv2.getTrackbarPos("hsv_2_z", nome_pannello_di_controllo)
-
-           
-                    ################################################################################
+        
+                ################################################################################
 
 
-                    ##################################################################################
-                    # 🤖 COMPUTER VISION
-                    # i parametri modificati nel pannello di controllo con le trackbar vengono aggiornati ogni frame
-                    #frame = video_frame.getCvFrame() # ottieni il frame da videocamere luxonis
+                ##################################################################################
+                # 🤖 COMPUTER VISION
+                # i parametri modificati nel pannello di controllo con le trackbar vengono aggiornati ogni frame
+                #frame = video_frame.getCvFrame() # ottieni il frame da videocamere luxonis
 
+                try:
                     frame_elaborato = systematik.computer_vision_system(frame, params = ricetta)
                     
                     if args.visualize in ('True',True,'T','t'):
 
                         cv2.imshow(nome_pannello_di_visualizzazione, frame_elaborato)
                         cv2.waitKey(1)
-                        
-   
-                    ##################################################################################
+                
+                except:
+                    pass
+                ##################################################################################
 
 
-                    ##################################################################################
-                    # SALVA LA FOTO
+                ##################################################################################
+                # SALVA LA FOTO
+                if type(frame) == type(None):
                     if not os.path.exists(ROOT_PATH +'/run/exp' + str(n_experiment)):
                         os.makedirs(ROOT_PATH +'/run/exp' + str(n_experiment))
 
@@ -300,24 +297,25 @@ def main():
                                 while os.path.isfile(new_path):
                                     numero_frame += 1
                                     new_path = path_file.replace('.png','_' + str(numero_frame) + '.png')
-                                cv2.imwrite(new_path, frame_elaborato)
+                                cv2.imwrite(new_path, frame)
 
                             else:
-                                cv2.imwrite(new_path, frame_elaborato)
+                                cv2.imwrite(new_path, frame)
                         else:  
-                            cv2.imwrite(path_file, frame_elaborato)
+                            cv2.imwrite(path_file, frame)
 
                         ##################################################################################
 
                         id_immagini_salvate.append(id_pezzo)
                         contatore_foto += 1
+                        frame = 0
 
 
-        except:
-        # se c'è un errore durante l'applicazione stampa il tempo ed l'errore ed aspetta 1 secondo. 
-           current_time = datetime.now().strftime("%H:%M:%S")
-           print('💀'+Fore.RED+' errore '+  Style.RESET_ALL+' videocamera disconnessa alle ore : ',current_time)
-           time.sleep(1)
+        # except:
+        # # se c'è un errore durante l'applicazione stampa il tempo ed l'errore ed aspetta 1 secondo. 
+        #    current_time = datetime.now().strftime("%H:%M:%S")
+        #    print('💀'+Fore.RED+' errore '+  Style.RESET_ALL+' videocamera disconnessa alle ore : ',current_time)
+        #    time.sleep(1)
 
 if __name__ == "__main__":
     main()
