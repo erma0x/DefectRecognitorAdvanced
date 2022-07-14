@@ -95,14 +95,15 @@ def BGR_to_HSV(nome_immagine):
 def computer_vision_system(immagine, params):
     
     # rendi l'immagine blurred attraverso GaussianBlur
-    immagine_cartone = cartoonize(img = immagine, a=params['cartoon_x'],b=params['cartoon_y'],c=params['cartoon_z'])
+    immagine_cartone = cartoonize(img = immagine, a = params['cartoon_x'],b=params['cartoon_y'],c=params['cartoon_z'])
     
     # trasforma immagine da BGR a HSV
     immagine_hsv = BGR_to_HSV(nome_immagine = immagine)
     
     # crea una maschera
-    hsv_color1 = np.asarray([0, 0, 0])
-    hsv_color2 = np.asarray([60, 255, 255])
+    
+    hsv_color1 = np.asarray([params['hsv_1_x'], params['hsv_1_y'], params['hsv_1_z']])
+    hsv_color2 = np.asarray([params['hsv_2_x'], params['hsv_2_y'], params['hsv_2_z']])
     
     mask = cv2.inRange( immagine_hsv, hsv_color1, hsv_color2)
 

@@ -12,9 +12,10 @@ Invia messaggi ogni tot di tempo randomico
     
 '''
 
-global IP_SERVER = "127.0.0.1"
-global PORT_SERVER = 1234
-    
+global IP_SERVER 
+global PORT_SERVER 
+IP_SERVER = "127.0.0.1"
+PORT_SERVER = 1234
     
 def testing_socket(ip = "127.0.0.1", port=1234):
     # parametri per generare intervalli di tempo per simulare il socket PLC
@@ -25,8 +26,7 @@ def testing_socket(ip = "127.0.0.1", port=1234):
     while True: # all'infinito
         
         # messaggio randomico per simulare il messaggio PLC
-        MESSAGE = bytes('f,' +str(rnd.randint(1,100))+',' +str(rnd.randint(1,100)),'utf-8') 
-        
+        MESSAGE = bytes('f,'+str(rnd.randint(0,5))+','+str(rnd.randint(1,100))+',' +str(rnd.randint(1,100)),'utf-8') 
         # estrai orario di adesso
         current_time = datetime.now().strftime("%H:%M:%S")
 
@@ -41,7 +41,7 @@ def testing_socket(ip = "127.0.0.1", port=1234):
             sock.send(MESSAGE)
 
             # dormi un numero randomico di secondi
-            time.sleep( rnd.randint(minimo_intervallo_di_secondi, massimo_intervallo_di_secondi+1))
+            time.sleep(rnd.randint(minimo_intervallo_di_secondi, massimo_intervallo_di_secondi+1))
             
             # chiudi il socket
             sock.close()
@@ -51,7 +51,7 @@ def testing_socket(ip = "127.0.0.1", port=1234):
 
         except: 
             # quando succede un qualsiasi errore eseguisci le linee qui sotto 
-            print(' 🔥','[',Fore.RED +current_time+Style.RESET_ALL,'] Errore: connessione al server non riuscita') 
+            print('Errore 🔥',Fore.RED +current_time+Style.RESET_ALL,f'Connessione al server {IP_SERVER}:{PORT_SERVER} non riuscita ') 
             time.sleep(intervallo_di_secondi_per_disconnessione)
 
 

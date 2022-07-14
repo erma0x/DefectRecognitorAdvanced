@@ -18,9 +18,12 @@ LOGO ="""
 """
 
 descrizione ='''
-App Computer Vision
-1- accetta messaggio PLC
-2- scatta foto
-3- elabora foto
-4- restituisci valore al PLC
+
+Flusso di lavoro dell'applicazione
+1 - accetta messaggi da PLC
+2 - se il messaggio ricevuto contiene come primo carattere una 'f' allora scatta foto
+3 - elabora foto attraverso il sistema di computer vision per evidenziare difetti
+4 - restituisci la presenza o meno del difetto al PLC indicando l'id del pezzo di produzione
+
+
 '''

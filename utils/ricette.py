@@ -13,17 +13,27 @@ ricetta_default = {
 'iso' : 100,                      # ISO foto | 0 - 1000 
 
 # parametri per elaborare la foto
-'canny_x' : 40,                     # 0 - 255
-'canny_y' : 230,                    # 0 - 255
-'line_x' : 70,                      # 0 - 255
-'line_y' : 70,                      # 0 - 255
-'line_z' : 255,                     # 0 - 255
+# 'canny_x' : 40,                     # 0 - 255
+# 'canny_y' : 230,                    # 0 - 255
+
+# 'line_x' : 70,                      # 0 - 255
+# 'line_y' : 70,                      # 0 - 255
+# 'line_z' : 255,                     # 0 - 255
+
 'cartoonize_x' : 20,                # 0 - 255
 'cartoonize_y' : 200,               # 0 - 255
 'cartoonize_z' : 250 ,              # 0 - 255
-'min_canny_a': 40,                  # 0 - 255
-'max_canny_a': 200,                 # 0 - 255
-'min_canny_b': 150,                 # 0 - 255
-'max_canny_b': 220  ,               # 0 - 255        
+
+# 'min_canny_a': 40,                  # 0 - 255
+# 'max_canny_a': 200,                 # 0 - 255
+# 'min_canny_b': 150,                 # 0 - 255
+# 'max_canny_b': 220  ,               # 0 - 255        
+
+'hsv_1_x': 0,                  # 0 - 255
+'hsv_1_y': 0,                 # 0 - 255
+'hsv_1_z': 0,                 # 0 - 255
+'hsv_2_x': 60  ,               # 0 - 255     
+'hsv_2_y': 80,                  # 0 - 255
+'hsv_2_z': 120                 # 0 - 255
 
 }
