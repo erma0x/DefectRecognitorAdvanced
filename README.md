@@ -7,10 +7,10 @@ The images are captured by a 4K video camera placed at the end of the production
 
 <br>
 
-### droplets recognition
+## 🟢 droplets recognition
 ![](./docs/foto_54.png)
 
-### holes recognition
+## 🟢 holes recognition
 ![](./docs/foto_11_2.png)
 
 ## **Software**
@@ -31,8 +31,7 @@ Create neural network models with free online tools.
 - https://teachablemachine.withgoogle.com/
 - https://www.makesense.ai/
 
-<br>
-________________________________________________________________
+
 
 ## **Application Workflow**
 This Computer Vision application allows you to:
@@ -112,8 +111,6 @@ Activate the PLC that connects with a socket to the server (app.py) and run the 
 nohup python3 app.py 1> logs.out 2> logs.err &
 ```
 
-
-<br>
 
 # **Tech Stack**
 
