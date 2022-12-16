@@ -1,4 +1,5 @@
 # Computer vision system for Defect Recognition
+
 ## **General description**
 Communication and image processing system for the automation of industrial processes. This application recognizes manufacturing defects automatically. The defects detected in the produced pieces can also be of small dimensions.
 
@@ -11,8 +12,6 @@ The images are captured by a 4K video camera placed at the end of the production
 
 ### holes recognition
 ![](./docs/foto_11_2.png)
-
-________________________________________________________________
 
 ## **Software**
 Learn to use OpenCV and Depthai, they are the libraries on which the application is based.
@@ -57,9 +56,6 @@ This Computer Vision application allows you to:
       2. return a message to the PLC containing a booleno indicating the presence or absence of the error, and the type of error.
 
 
-<br>
-
-________________________________________________________________
 
 ## **Installation**
 
@@ -102,7 +98,6 @@ If you use the Anaconda environment (conda), you can also use this way to instal
  
    To start the application, either the PLC socket is connected which sends messages every time a picture needs to be taken, or for debugging it is possible to launch a test socket called plc_client_test.py, where random messages will be sent every few seconds to the server . In this way it is possible to activate the artificial vision system.
 
-________________________________________________________________
 
 ### **Debug (test) mode**
 In two separate terminals
@@ -110,7 +105,6 @@ In two separate terminals
 python3 plc_test_client.py
 python3 app.py
 ```
-________________________________________________________________
 
 ### **Live mode (in real)**
 Activate the PLC that connects with a socket to the server (app.py) and run the following command:
