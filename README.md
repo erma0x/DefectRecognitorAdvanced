@@ -1,8 +1,4 @@
-# Artificial vision system
-
-![img](./data/images/examples/logo2.png)
-
-
+# Computer vision system for Defect Recognition
 ## **General description**
 Communication and image processing system for the automation of industrial processes. This application recognizes manufacturing defects automatically. The defects detected in the produced pieces can also be of small dimensions.
 
@@ -10,7 +6,11 @@ The images are captured by a 4K video camera placed at the end of the production
 
 <br>
 
-![img](./docs/results/img/final_result_1.PNG)
+### droplets recognition
+![](./docs/foto_54.png)
+
+### holes recognition
+![](./docs/foto_11_2.png)
 
 ________________________________________________________________
 
